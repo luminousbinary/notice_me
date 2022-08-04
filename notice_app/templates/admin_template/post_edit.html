@@ -1,0 +1,37 @@
+{% extends 'admin_template/base_template.html' %}
+
+{% block page_title %}
+{{ post.title }} 
+<small style=" padding-left: 4px;"> |By:  {{ post.author.last_name }} </small>
+
+{% endblock page_title %}
+
+{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+
+{% block main_content %}
+
+{% load static %}
+
+
+
+<div class="container">
+    <div class="row mt-5 pt-3">
+        <div class="col-md-8 offset-md-2">
+            <div class="card my-3 shadow">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input class="btn btn-success btn-sm" type="submit" value="Save">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock main_content %}
+

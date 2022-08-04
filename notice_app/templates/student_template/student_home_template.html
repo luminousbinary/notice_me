@@ -1,0 +1,152 @@
+{% extends 'student_template/base_template.html' %}
+
+{% block page_title %}
+    Student Home
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+
+{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+
+
+<div class="container">
+  <div class="row mt-5 pt-3">
+      
+      <div class="col-md-8">
+          {% for post in posts %}
+          <div class="card shadow my-3">
+              <div class="card-body">
+                  <div class="row">
+                      <div class="col-md-4">
+                          <img class="img-thumbnail" src="{{ post.author.image.url }}" alt="img">
+                      </div>
+                      <div class="col-md-8">
+                          <small> {{ post.date_created }} </small> 
+                          <small style=" padding-left: 4px;"> |By:  {{ post.author.last_name }} </small>
+                          <hr>
+                          <a class="h3" href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+                          <p class="text-justify my-3">
+                              {{ post.content|slice:":100" }}
+                          </p>                               
+                          <a href="{% url 'student_post_detail' post.id %}" class="btn btn-primary">Read More &rarr;</a>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+      
+      {% if request.user.is_superuser %}
+      <div class="col-md-4">
+          <div class="card my-3 shadow">
+              <div class="card-body">
+                  <form method="POST">
+                      {% csrf_token %}
+                      {{ form }}
+                      <input class="btn btn-success btn-block" type="submit" value="Post">
+                  </form>
+              </div>
+          </div>
+      </div>
+      {% else %}
+
+      {% endif %}
+
+  </div>
+</div>
+
+
+  {% endblock main_content %}
+{% comment %} 
+  {% block custom_js %}
+    <script>
+       $(document).ready(function(){
+           //Code for Pie Chart
+            var pieData        = {
+            labels: [
+                'ABSENT', 
+                'PRESENT', 
+            ],
+            datasets: [
+                {
+                data: [{{ attendance_absent }}, {{ attendance_present }}],
+                backgroundColor : ['#f56954', '#00a65a'],
+                }
+            ]
+            }
+           //Code for Pie Chart
+            var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+            var pieData        = pieData;
+            var pieOptions     = {
+            maintainAspectRatio : false,
+            responsive : true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            var pieChart = new Chart(pieChartCanvas, {
+            type: 'pie',
+            data: pieData,
+            options: pieOptions      
+            })
+
+            //Code for Bar Chart
+            var subjects = {{ subject_name|safe }}
+            var data_present = {{ data_present }}
+            var data_absent = {{ data_absent }}
+
+            //Dataset for Bar Chart
+            var areaChartData = {
+            labels  : subjects,
+            datasets: [
+                {
+                label               : 'Present in Class',
+                backgroundColor     : 'rgba(60,141,188,0.9)',
+                borderColor         : 'rgba(60,141,188,0.8)',
+                pointRadius          : false,
+                pointColor          : '#3b8bba',
+                pointStrokeColor    : 'rgba(60,141,188,1)',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data                : data_present
+                },
+                {
+                label               : 'Absent in Class',
+                backgroundColor     : 'rgba(210, 214, 222, 1)',
+                borderColor         : 'rgba(210, 214, 222, 1)',
+                pointRadius         : false,
+                pointColor          : 'rgba(210, 214, 222, 1)',
+                pointStrokeColor    : '#c1c7d1',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: 'rgba(220,220,220,1)',
+                data                : data_absent
+                },
+            ]
+            }
+
+
+            var barChartCanvas = $('#barChart').get(0).getContext('2d')
+            var barChartData = jQuery.extend(true, {}, areaChartData)
+            var temp1 = areaChartData.datasets[0]
+            barChartData.datasets[0] = temp1
+
+            var barChartOptions = {
+            responsive              : true,
+            maintainAspectRatio     : false,
+            datasetFill             : false
+            }
+
+            var barChart = new Chart(barChartCanvas, {
+            type: 'bar', 
+            data: barChartData,
+            options: barChartOptions
+            })
+
+
+       })
+    </script>
+  {% endblock custom_js %}
+   {% endcomment %}
