@@ -23,7 +23,7 @@ class PostModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({'rows': 4, 'class': 'col-md-12', 'style': 'display:block;',})
-        self.fields['content'].widget.attrs.update({'rows': 4, 'class': 'col-md-12', 'style': 'display:block;',})
+        self.fields['content'].widget.attrs.update({'rows': 8, 'class': 'col-md-12', 'style': 'display:block;',})
 
 
 class PostUpdateForm(forms.ModelForm):
@@ -34,7 +34,7 @@ class PostUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({'rows': 4, 'class': 'col-md-12', 'style': 'display:block;',})
-        self.fields['content'].widget.attrs.update({'rows': 4, 'class': 'col-md-12', 'style': 'display:block;',})
+        self.fields['content'].widget.attrs.update({'rows': 8, 'class': 'col-md-12', 'style': 'display:block;',})
 
 
 class CommentForm(forms.ModelForm):

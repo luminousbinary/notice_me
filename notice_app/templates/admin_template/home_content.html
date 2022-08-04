@@ -1,5 +1,11 @@
 {% extends 'admin_template/base_template.html' %}
 
+
+{% block page_title %}
+    Admin Home
+{% endblock page_title %}
+
+
 {% comment %} {% load crispy_forms_tags %} {% endcomment %}
 
 {% block main_content %}
@@ -28,7 +34,8 @@
               <div class="card-body">
                   <div class="row">
                       <div class="col-md-4">
-                          <img class="img-thumbnail" src="{{ post.author.image.url }}" alt="img">
+                          <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+                          {% comment %} <img class="img-thumbnail" src="{{ post.author.image.url }}" alt="img"> {% endcomment %}
                       </div>
                       <div class="col-md-8">
                           <small> {{ post.date_created }} </small> 
@@ -36,7 +43,7 @@
                           <hr>
                           <a class="h3" href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
                           <p class="text-justify my-3">
-                              {{ post.content|slice:":100" }}</p>                               
+                              {{ post.content|slice:":100" }}... </p>                               
                           <a href="{% url 'admin_post_detail' post.id %}" class="btn btn-primary">Read More &rarr;</a>
 
                       </div>

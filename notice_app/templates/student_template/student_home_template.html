@@ -21,7 +21,8 @@
               <div class="card-body">
                   <div class="row">
                       <div class="col-md-4">
-                          <img class="img-thumbnail" src="{{ post.author.image.url }}" alt="img">
+                        <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+                          {% comment %} <img class="img-thumbnail" src="{{ post.author.image.url }}" alt="img"> {% endcomment %}
                       </div>
                       <div class="col-md-8">
                           <small> {{ post.date_created }} </small> 
